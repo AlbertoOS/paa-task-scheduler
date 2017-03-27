@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 import argparse
+import time
 
 
 def greedy_selection(activities):
@@ -90,29 +91,39 @@ def main():
         #  print(activities[0][1]) fim da primeira tarefa
     activities.sort(key=lambda activity: activity[1])
 
-    def print_solution(schedule, method):
+    def print_solution(schedule, method, duration):
         print('\n{} tarefas foram escalonadas seguindo o método {}'.format(len(schedule), method))
         print(schedule)
         for index, activity in enumerate(schedule):
             print('Tarefa {} início: {} fim: {}'.format(index, activity[0], activity[1]))
+        print('Tempo levado: {:.10f}s'.format(duration))
 
     if method == 'backtracking':
+        start = time.time()
         schedule = backtracking_selection(activities)
         method += ' (retroativo)'
-        print_solution(schedule, method)
+        duration = time.time() - start
+        print_solution(schedule, method, duration)
     elif method == 'dynamic':
+        start = time.time()
         schedule = dynamic_selection(activities)
         method += ' (dinâmico)'
-        print_solution(schedule, method)
+        duration = time.time() - start
+        print_solution(schedule, method, duration)
     elif method == 'greedy':
+        start = time.time()
         schedule = greedy_selection(activities)
         method += ' (guloso)'
-        print_solution(schedule, method)
+        duration = time.time() - start
+        print_solution(schedule, method, duration)
     else:
-        schedules = [backtracking_selection(activities), dynamic_selection(activities), greedy_selection(activities)]
         methods = ['backtracking (retroativo)', 'dynamic (dinâmico)', 'greedy (guloso)']
+        schedules = [backtracking_selection, dynamic_selection, greedy_selection]
         for i in range(len(methods)):
-            print_solution(schedules[i], methods[i])
+            start = time.time()
+            schedule = schedules[i](activities)
+            duration = time.time() - start
+            print_solution(schedule, methods[i], duration)
 
 
 if __name__ == "__main__":
