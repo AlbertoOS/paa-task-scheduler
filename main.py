@@ -44,11 +44,11 @@ def compute_q(activities):
 
 
 def dynamic_selection(activities):
-    opt = [-1] * (len(activities) - 1)
-    opt[0] = 0
+    opt = [-1] * (len(activities) + 1)
+    opt[-1] = 0
     # Maior indice dos elementos compatíveis com a tarefa i
     q = compute_q(activities)
-    for i in range(1, len(activities) - 1):
+    for i in range(0, len(activities)):
         opt[i] = max(opt[i - 1], opt[q[i]] + 1)
     selected_activities = find_solution(len(activities) - 1, q, opt, activities)
     return selected_activities
