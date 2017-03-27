@@ -43,7 +43,7 @@ def compute_q(activities):
 
 
 def dynamic_selection(activities):
-    opt = [-1] * (len(activities)-1)
+    opt = [-1] * (len(activities) - 1)
     opt[0] = 0
     # Maior indice dos elementos compatíveis com a tarefa i
     q = compute_q(activities)
@@ -54,7 +54,7 @@ def dynamic_selection(activities):
 
 
 def recursive_compute(j,activities,q):
-    if (j==-1):
+    if (j == -1):
         return [];
     add_activity = recursive_compute(q[j], activities, q)
     no_add_activity = recursive_compute(j - 1, activities, q)
@@ -83,7 +83,7 @@ def main():
     method = args.method
 
     with open(inputfile) as f:
-        activities = [activity.split() for activity in f.read().splitlines()]
+        activities = [tuple(map(int, activity.split())) for activity in f.read().splitlines()]
         #  print(activities) tarefas
         #  print(activities[0]) primeira tarefa
         #  print(activities[0][0]) inicio da primeira tarefa
